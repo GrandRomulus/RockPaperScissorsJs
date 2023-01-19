@@ -9,12 +9,12 @@
 </head>
 <body> 
     <h4>Rock, Paper, Scissors!</h4>
-    <input type="text" id="userInput" placeholder="Enter Choice" maxlength="10">
 
-    <button onclick="buttonFunc()">Submit</button> 
+    <input id="inputField" type="text">
+    <button onClick="playRound()">Save String</button>
     
     <div id="PlayerSelect">
-        <label for="PlayerSelection">Player:</label><p id="PlayerSelection"></p>
+        <label for="PlayerSelection">Player:</label><p id="output"></p>
     </div>
 
     <div id="CompSelect">
@@ -24,64 +24,60 @@
     <label for="EndResult">Result:</label>
     <p id="EndResult"></p>
 
+    <label for="playerScore">Player Score:</label>
+    <p id="playerScore"></p>
+
+    <label for="computerScore">Computer Score:</label>
+    <p id="computerScore"></p>
+
 </body>
 <script>
+
     const list = ["Rock", "Paper", "Scissors"];
+    let playerSelection;
+    let computerSelection;
+    let p = 0;
+    let c = 0;
+    document.getElementById('playerScore').innerHTML = p;
+    document.getElementById('computerScore').innerHTML = c;
 
-    function refreshPage(){
-    window.location.reload();
-    } 
+    function playRound() {
+        
+        inputField = document.getElementById("inputField");
+        playerSelection = inputField.value;
+        output = document.getElementById("output");
+        output.innerHTML = playerSelection;
 
-    function userSelection() {
-    input = document.getElementById("userInput").value
-    localStorage.setItem("input", input)
+        const computerSelection = list[Math.floor(Math.random() * list.length)];
+
+        document.getElementById('CompSelection').innerHTML = computerSelection;
+
+        if (p > 5 || c > 5) {
+        alert("Game Over!");
+        location.reload();
+        }
+ 
+        if (playerSelection == "Rock" && computerSelection == "Paper") {
+            c++;
+            return document.getElementById('EndResult').innerHTML = "Computer Wins!"; 
+        } else if (playerSelection == "Scissors" && computerSelection == "Rock") {
+            c++;
+            return document.getElementById('EndResult').innerHTML = "Computer Wins!";
+        } else if (playerSelection == "Paper" && computerSelection == "Rock") {
+            p++;
+            return document.getElementById('EndResult').innerHTML = "Player1 Wins!";
+        } else if (playerSelection == "Paper" && computerSelection == "Scissors") {
+            c++;
+            return document.getElementById('EndResult').innerHTML = "Computer Wins!";
+        } else if (playerSelection == "Rock" && computerSelection == "Scissors") {
+            p++;
+            return document.getElementById('EndResult').innerHTML = "Player1 Wins!";
+        } else if (playerSelection == null) {
+            return document.getElementById('EndResult').innerHTML = "Enter choice...!"
+        } else {
+            return document.getElementById('EndResult').innerHTML = "Draw!"
+        }
     }
-
-    function buttonFunc() {
-        refreshPage();
-        userSelection();
-    }
-
-    function getComputerChoice() {
-    let index = Math.floor(Math.random() * list.length);
-    if (playerSelection == null) {
-        return null;
-    } else {
-    return list[index];
-    }
-    }
-
-    const playerSelection = localStorage.getItem('input');
-    const computerSelection = getComputerChoice();
-
-    function playRound(playerSelection, computerSelection) {
-    if (playerSelection == "Rock" && computerSelection == "Paper") {
-        return result = "Computer Wins!";
-    } else if (playerSelection == "Scissors" && computerSelection == "Rock") {
-        return result = "Computer Wins!";
-    } else if (playerSelection == "Paper" && computerSelection == "Rock") {
-        return result = "Player1 Wins!";
-    } else if (playerSelection == "Paper" && computerSelection == "Scissors") {
-        return result = "Computer Wins!";
-    } else if (playerSelection == "Rock" && computerSelection == "Scissors") {
-        return result = "Player1 Wins!";
-    } else if (playerSelection == null) {
-        return result = "Enter choice...!"
-    } else {
-        return result = "Draw!"
-    }
-    }
-
-    document.getElementById('PlayerSelection').innerHTML = "";
-    document.getElementById('CompSelection').innerHTML = "";
-    document.getElementById('PlayerSelection').innerHTML = playerSelection;
-    document.getElementById('CompSelection').innerHTML = computerSelection;
-    document.getElementById('EndResult').innerHTML = playRound(playerSelection, computerSelection);
-
-    console.log(playRound(playerSelection, computerSelection));
-    console.log(computerSelection)
-    console.log(playerSelection)
-    localStorage.clear()
 </script>
 <style>
     #PlayerSelect {
